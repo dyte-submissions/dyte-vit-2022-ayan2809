@@ -8,11 +8,11 @@ import dotenv
 from github import Github
 dotenv.load_dotenv()
 token = os.getenv("token")
-# print(token)
+
+#function to fetch the URL details
 def fetchURLDetails(user, repo_name, path_to_file):
     finalJson={}
     json_url = 'https://api.github.com/repos/'+user+'/'+repo_name+'/contents/'+path_to_file
-    # print(json_url)
     response = requests.get(json_url)
     if response.status_code == requests.codes.ok:
         jsonResponse = response.json() 
@@ -23,10 +23,11 @@ def fetchURLDetails(user, repo_name, path_to_file):
         print('Content was not found.')
     return finalJson
 
+#function to fetch the full JSON
 def fetchFullJSON(user, repo_name, path_to_file):
     finalJson={}
     json_url = 'https://api.github.com/repos/'+user+'/'+repo_name+'/contents/'+path_to_file
-    # print(json_url)
+    
     response = requests.get(json_url)
     if response.status_code == requests.codes.ok:
         jsonResponse = response.json() 
@@ -37,9 +38,10 @@ def fetchFullJSON(user, repo_name, path_to_file):
         print('Content was not found.')
     return finalJson
 
+# function to fetch the SHA number of the file
 def fetchSHAnumber(user, repo_name, path_to_file):
     json_url = 'https://api.github.com/repos/'+user+'/'+repo_name+'/contents/'+path_to_file
-    # print(json_url)
+    
     response = requests.get(json_url)
     if response.status_code == requests.codes.ok:
         jsonResponse = response.json()
@@ -47,26 +49,30 @@ def fetchSHAnumber(user, repo_name, path_to_file):
         print('Content was not found.')
     return jsonResponse['sha']   
 
+# to get the library name
 def getLibraryName(dependency):
     return dependency.split('@')[0]
 
+# to get the library version
 def getLibraryVersion(dependency):
     return dependency.split('@')[1]
 
+# to make csv for dependency check ie the first task
 def makeCSVforDependencyCheck(repo_name, repo, version, version_satisfied):
     csv_file = open('output1.csv', 'a')
     csv_writer = csv.writer(csv_file)
     csv_writer.writerow([repo_name, repo, version, version_satisfied])
     csv_file.close()
 
+# to make csv for dependency update task ie second task
 def makeCSVforDependencyUpdate(repo_name, repo, version, version_satisfied, updateLink):
     csv_file = open('output2.csv', 'a')
     csv_writer = csv.writer(csv_file)
     csv_writer.writerow([repo_name, repo, version, version_satisfied, updateLink])
     csv_file.close()
 
+# function to create pull request
 def createPullRequest(user, repo_name, branch_name, base_branch_name, title, body):
-    # url = 'https://api.github.com/repos/'+user+'/'+repo_name+'/pulls'
     url = "https://api.github.com/repos/"+user+"/"+repo_name+"/pulls"
     headers = {
         "Authorization" : "token {}".format(token),
@@ -92,6 +98,7 @@ def createPullRequest(user, repo_name, branch_name, base_branch_name, title, bod
     else:
         print('Pull request creation failed.')
 
+# function to compare the versions
 def versionCompare(v1, v2):
      
     arr1 = v1.split(".")
@@ -145,24 +152,23 @@ def updateGitHubFile(user, repo_name, path_to_file, sha, content):
     else:
         print('File update failed.')
 
+# function to update package.json file
 def updateGitHubFile2(user, repo_name, path_to_file, shaPassed, content):
     g = Github(token)
-    # print('--> Logged in')
-    # Get User from the token used to login
     user = g.get_user()
     repo = g.get_repo(user.login+"/"+repo_name)
     contents = repo.get_contents(path_to_file)
     repo.update_file(contents.path, "Updated Package.json", json.dumps(content, indent=2, sort_keys=False), contents.sha, branch="dev")
 
+# function to update package-lock.json file
 def updateGitHubFile3(user, repo_name, path_to_file, shaPassed, content):
     g = Github(token)
-    # print('--> Logged in')
-    # Get User from the token used to login
     user = g.get_user()
     repo = g.get_repo(user.login+"/"+repo_name)
     contents = repo.get_contents(path_to_file)
     repo.update_file(contents.path, "Updated package-lock.json", json.dumps(content, indent=2, sort_keys=False), contents.sha, branch="dev")
 
+# function to create a pull request
 def createPullRequest(user, repo_name, wantedLibrary, wantedVersion, fetchedVersion, branch_name, base_branch_name):
     g= Github(token)
     user = g.get_user()
@@ -170,13 +176,14 @@ def createPullRequest(user, repo_name, wantedLibrary, wantedVersion, fetchedVers
     title= 'chore: updates '+wantedLibrary+' to '+wantedVersion
     body ='Updates the version of '+wantedLibrary+' from '+fetchedVersion+' to '+wantedVersion
     pr = repo.create_pull(title=title, body=body, head=branch_name, base=base_branch_name)
-    # print(pr)
     return pr.html_url
 
+# parser for the command line arguments
 parser = argparse.ArgumentParser(description='This is a tool developed by Ayan Sadhukhan for the Dyte Assessment')
 
 parser.add_argument('-update', action='store_true')
 
+# -file argument to fetch the input.csv file
 parser.add_argument(
     "--file",
     "-i",
@@ -185,6 +192,7 @@ parser.add_argument(
     help = "Enter the file name"
 )
 
+# -dependency name to get the name of the dependency
 parser.add_argument(
     "dependency_name",
     type=str,
@@ -197,7 +205,6 @@ file_name = args.file
 dependency_name = args.dependency_name
 
 if args.update == True:
-    # print('Update is True')
     if file_name[-4:] == '.csv':
         with open(file_name, 'r') as csv_file:
             csv_reader = csv.reader(csv_file)
@@ -207,7 +214,6 @@ if args.update == True:
                         if(line[i]!='repo'):
                             repo_name = line[i][27:]
                             repo_name = repo_name[0:-1] if repo_name[len(repo_name)-1] == '/' else repo_name
-                            # print(repo_name)
                             fetchedJSON =(fetchURLDetails('ayan2809', repo_name, 'package.json'))
 
                             wantedLibrary = getLibraryName(dependency_name)
@@ -217,22 +223,19 @@ if args.update == True:
                             ans = versionCompare(fetchedVersion ,wantedVersion)
                             if ans < 0:
                                 updateLink=''
-                                # createPullRequest('ayan2809', repo_name, 'main', 'main', 'Update dependency', 'Update dependency')
+                                
                                 
                                 shaNumber=fetchSHAnumber('ayan2809', repo_name, 'package.json')
-                                # print(shaNumber)
-                                # fullJSON =fetchFullJSON('ayan2809', repo_name, 'package.json')
+                                
                                 
                                 fetchedJSON['dependencies'][wantedLibrary]='^'+wantedVersion
-                                # print(fetchedJSON)
                                 
-                                # baseEncodedContent=base64.urlsafe_b64encode(json.dumps(fetchedJSON).encode()).decode()
                                 fetchedJSON2=fetchFullJSON('ayan2809', repo_name, 'package-lock.json')
                                 updateGitHubFile2('ayan2809', repo_name, 'package.json', shaNumber, fetchedJSON)
                                 fetchedJSON2['packages'][""]['dependencies'][wantedLibrary]='^'+wantedVersion
 
                                 fetchedJSON2['packages']['node_modules/'+wantedLibrary]['version']='^'+wantedVersion
-                                # print(fetchedJSON2['packages']['node_modules/'+wantedLibrary]['resolved'])
+                                
 
                                 fetchedJSON2['packages']['node_modules/'+wantedLibrary]['resolved']=fetchedJSON2['packages']['node_modules/'+wantedLibrary]['resolved'].split(wantedLibrary+'-')[0]+wantedLibrary+'-'+wantedVersion+'.tgz'
 
@@ -240,19 +243,18 @@ if args.update == True:
 
                                 fetchedJSON2['dependencies'][wantedLibrary]['resolved']=fetchedJSON2['dependencies'][wantedLibrary]['resolved'].split(wantedLibrary+'-')[0]+wantedLibrary+'-'+wantedVersion+'.tgz'
 
-                                # print(fetchedJSON2)
+                                
 
                                 updateGitHubFile3('ayan2809', repo_name, 'package-lock.json', shaNumber, fetchedJSON2)
-                                # fullJSON['content']=baseEncodedContent
+                            
                                 getPRurl=createPullRequest('ayan2809', repo_name, wantedLibrary, wantedVersion, fetchedVersion, 'dev', 'main')
-                                # print(getPRurl)
-                                # updateGitHubFile('ayan2809', repo_name, 'package.json', shaNumber, fetchedJSON)
+                                
                                 makeCSVforDependencyUpdate(repo_name, line[i], fetchedVersion, 'false', updateLink=getPRurl)
-                                # print(line[i], fetchedVersion, wantedVersion, 'false')
+                                
                             elif ans >= 0:
                                 makeCSVforDependencyUpdate(repo_name, line[i], fetchedVersion, 'true', '')
-                                # print(line[i], fetchedVersion, wantedVersion, 'No true')
-                            # print('\n')
+                                
+                           
                         else:
                             csv.writer(open('output2.csv', 'w'))
                             makeCSVforDependencyUpdate('name', 'repo', 'version', 'version_satisfied', 'update_pr')
@@ -270,7 +272,7 @@ else:
                         if(line[i]!='repo'):
                             repo_name = line[i][27:]
                             repo_name = repo_name[0:-1] if repo_name[len(repo_name)-1] == '/' else repo_name
-                            # print(repo_name)
+                            
                             fetchedJSON =(fetchURLDetails('ayan2809', repo_name, 'package.json'))
 
                             wantedLibrary = getLibraryName(dependency_name)
@@ -280,11 +282,11 @@ else:
                             ans = versionCompare(fetchedVersion ,wantedVersion)
                             if ans < 0:
                                 makeCSVforDependencyCheck(repo_name, line[i], fetchedVersion, 'false')
-                                # print(line[i], fetchedVersion, wantedVersion, 'false')
+                                
                             elif ans >= 0:
                                 makeCSVforDependencyCheck(repo_name, line[i], fetchedVersion, 'true')
-                                # print(line[i], fetchedVersion, wantedVersion, 'No true')
-                            # print('\n')
+                                
+                            
                         else:
                             csv.writer(open('output1.csv', 'w'))
                             makeCSVforDependencyCheck('name', 'repo', 'version', 'version_satisfied')
