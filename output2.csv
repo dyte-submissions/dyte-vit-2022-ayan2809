@@ -1,0 +1,4 @@
+name,repo,version,version_satisfied,update_pr
+react-sample-app,https://github.com/dyte-in/react-sample-app/,0.24.0,true,
+javascript-sample-app,https://github.com/dyte-in/javascript-sample-app,0.21.1,false,https://github.com/ayan2809/javascript-sample-app/pull/3
+backend-sample-app,https://github.com/dyte-in/backend-sample-app,0.23.0,true,
