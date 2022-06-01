@@ -18,35 +18,27 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
+<!--   <a href="https://github.com/github_username/repo_name">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
+  </a> -->
 
-<h3 align="center">project_title</h3>
+<h3 align="center">SDK Tooling Challenge</h3>
 
   <p align="center">
-    project_description
+    As part of the SDK tooling team, you will be building and maintaining tools that will help people develop, test, and release the Dyte video calling SDKs for web and mobile platforms. So to check your design and development skills and to give you a sense of what you will be working on, we ask you to create a tool that will help us with our release process.
     <br />
     <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://github.com/dyte-submissions/dyte-vit-2022-ayan2809">View Demo</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
+    <a href="https://github.com/dyte-submissions/dyte-vit-2022-ayan2809">Report Bug</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    <a href="https://github.com/dyte-submissions/dyte-vit-2022-ayan2809/issues">Request Feature</a>
   </p>
 </div>
 
@@ -93,59 +85,62 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+* [Python](https://www.python.org/)
+* [PyGithub](https://pygithub.readthedocs.io)
+* [Github API](https://api.github.com)
+* [PyInstaller](https://pypi.org/project/pyinstaller)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+I have used a virtual environment in python to develop my application in a linux setup. I have provided the requirements.txt file in my repository. For making a virtual environment the following steps can be followed:
+  ```bash
+    sudo apt install python3 python3-dev virtualenv
+  ```
+  Inside the project directory of the cloned repository a virtual environment needs to be created:
+  ```bash
+    virtualenv --python=python3 ~/venv
+  ```
+  Now activating the virtual environment
+  First we need to enter the bin folder of the venv
+  ```bash
+    cd venv/bin
+  ```
+  Now we need to activate the environment
+  ```bash
+    source activate
+  ```
+  After that we exit the bin directory and move to the project directory
+  ```bash
+    cd ../..
+  ```
+  Now finally we need to install all the requirments mentioned in the requirements.txt file. We can easily do it by following the below command
+  ```bash
+    pip3 install -r requirements.txt
+  ```
+  
 
 ### Prerequisites
+Get a token of the Github Account Key at [Github Tokens](https://github.com/settings/tokens)
+The token needs to be stored in a .env file in the root directory of the project. The env file will have to be stored as
+```bash
+  token = 'xxxxxxx67RGE6cDrP8Cg79hozxxxxxxxxxxxxxxxx'
+```
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+The tool can be used by running the following command in the virtual environment as:
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+1. The first task command
+```bash
+  python3 cli.py -i input.csv axios@0.23.0
+```
+
+2. The second task command
+```bash
+  python3 cli.py -update -i input.csv axios@0.23.0
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -154,78 +149,39 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [x] Feature 1 - Checks the version of the library name provided in package.json
+- [x] Feature 2 - Checks if there is a update flag given or not and then updates the package.json and package-lock.json and creates a PR
+- [x] Feature 3 - API connection with github for the above two tasks
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Ayan Sadhukhan - [@twitter_handle](https://twitter.com/ayannn01) - ayan.sadhukhan2019@vitstudent.ac.in - +91 7890032256
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
+Project Link: [Project Submission](https://github.com/dyte-submissions/dyte-vit-2022-ayan2809)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Screenshots and Outputs
+#### Terminal Commands to run my code file
+![image](https://user-images.githubusercontent.com/42286904/171459158-cd125254-f4f0-4b6c-96b0-d747e69e4aa6.png)
 
+#### Output File 1 - Without Update Feature and just the versioning check
+![output1](https://user-images.githubusercontent.com/42286904/171460290-03e70969-4310-4af2-b467-3c20ad5e6c5a.png)
+ 
+#### Output File 2 - With update feature
+![image](https://user-images.githubusercontent.com/42286904/171459383-cad006fc-c4ec-45c3-8a2e-1de16034dd82.png)
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
+#### The Pull Request Made
+![image](https://user-images.githubusercontent.com/42286904/171459696-243d37a7-56c6-4d1d-b017-cd22aff97932.png)
+
+#### The Pull Request Description and from dev branch to main branch
+![image](https://user-images.githubusercontent.com/42286904/171459808-d074c532-ff38-4865-ad66-de8d80301e43.png)
+
+## My Workflow
+So basically i have used argparser module to take into account the various arguments and based on them i have used a --update flag and the -i to take input of the csv file followed by the libary which is set to invisible. After reading from the input csv file it reads each row and fetches the URL provided using the github api. Now we compare the versions of the fetched one and the desired one and the results are given appropriately. The next process is to write the output in a output1.csv file. The next process was to check if the update flag is true or false. This meant that we need to check the version as well as perform extra operation to bump up the version in both package.json and package-lock.json. This is done using python strings and after carefully analyzing the APIs. For this part i had to use pygithub package as well as fork the dyte repositories into my account. Then i made a dev branch to update the files and simulate a pull request in an ideal development scenario. After the PR i returned the PR url and stored it in the csv file.
+
