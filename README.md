@@ -118,6 +118,9 @@ I have used a virtual environment in python to develop my application in a linux
     pip3 install -r requirements.txt
   ```
   
+  Alternatively I have uploaded my venv file on drive and shared it below. Just download and run by activating would be enough
+  [Click here for downloading the venv file from drive](https://drive.google.com/drive/folders/1Ku9ztcLCIPp-x1ewlVusYLbFO7SwAxxm?usp=sharing)
+  
 
 ### Prerequisites
 Get a token of the Github Account Key at [Github Tokens](https://github.com/settings/tokens)
